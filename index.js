@@ -57,7 +57,4 @@ app.get('/test', (req, res) => {
   res.send('OK');
 });
 
-
-app.listen(3001, '0.0.0.0', () => {
-    console.log('✅ API dispo sur http://0.0.0.0:3001');
-});
+https.createServer(app).listen(3001);
