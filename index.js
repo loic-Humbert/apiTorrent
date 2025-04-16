@@ -51,12 +51,8 @@ app.post('/upload', upload.single('file'), (req, res) => {
     });
 });
 
-// HTTPS setup
-const sslOptions = {
-    key: fs.readFileSync(path.join(__dirname, 'ssl', 'selfsigned.key')),
-    cert: fs.readFileSync(path.join(__dirname, 'ssl', 'selfsigned.crt'))
-};
 
-https.createServer(sslOptions, app).listen(8443, () => {
+
+https.createServer(app).listen(8443, () => {
     console.log(`✅ API HTTPS dispo sur https://<ton-ip>:8443`);
 });
