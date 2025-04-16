@@ -4,6 +4,7 @@ import WebTorrent from 'webtorrent';
 import fs from 'fs';
 import archiver from 'archiver';
 import path from 'path';
+import https from 'https';
 import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -11,7 +12,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = 3000;
 const upload = multer({ dest: 'uploads/' });
 const client = new WebTorrent();
 
@@ -51,6 +51,12 @@ app.post('/upload', upload.single('file'), (req, res) => {
     });
 });
 
-app.listen(port, () => {
-    console.log(`API disponible sur http://localhost:${port}`);
+// HTTPS setup
+const sslOptions = {
+    key: fs.readFileSync(path.join(__dirname, 'ssl', 'selfsigned.key')),
+    cert: fs.readFileSync(path.join(__dirname, 'ssl', 'selfsigned.crt'))
+};
+
+https.createServer(sslOptions, app).listen(443, () => {
+    console.log(`✅ API HTTPS dispo sur https://<ton-ip>:443`);
 });
