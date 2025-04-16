@@ -58,6 +58,6 @@ app.get('/test', (req, res) => {
 });
 
 
-https.createServer(app).listen(3001, () => {
-    console.log(`✅ API HTTPS dispo sur https://<ton-ip>:3001`);
+app.listen(3001, '0.0.0.0', () => {
+    console.log('✅ API dispo sur http://0.0.0.0:3001');
 });
