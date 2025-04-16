@@ -18,6 +18,8 @@ const client = new WebTorrent();
 const DOWNLOAD_DIR = path.join(__dirname, 'downloads');
 if (!fs.existsSync(DOWNLOAD_DIR)) fs.mkdirSync(DOWNLOAD_DIR);
 
+
+
 app.post('/upload', upload.single('file'), (req, res) => {
     if (!req.file || !req.file.originalname.endsWith('.torrent')) {
         return res.status(400).send({ error: 'Fichier .torrent requis' });
@@ -51,6 +53,9 @@ app.post('/upload', upload.single('file'), (req, res) => {
     });
 });
 
+app.get('/test', (req, res) => {
+  res.send('OK');
+});
 
 
 https.createServer(app).listen(3001, () => {
