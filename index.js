@@ -7,7 +7,6 @@ import path from 'path';
 import https from 'https';
 import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
-import tls from 'tls';  // Pour utiliser HTTPS
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,14 +18,7 @@ const client = new WebTorrent();
 const DOWNLOAD_DIR = path.join(__dirname, 'downloads');
 if (!fs.existsSync(DOWNLOAD_DIR)) fs.mkdirSync(DOWNLOAD_DIR);
 
-// Chemin vers les fichiers de certificat SSL
-const CERT_KEY = path.join(__dirname, 'path/to/your/cert.key');  // Remplace par ton chemin de clé privée
-const CERT_CERT = path.join(__dirname, 'path/to/your/cert.crt');  // Remplace par ton chemin de certificat
 
-const credentials = {
-  key: fs.readFileSync(CERT_KEY),
-  cert: fs.readFileSync(CERT_CERT),
-};
 
 app.post('/upload', upload.single('file'), (req, res) => {
     if (!req.file || !req.file.originalname.endsWith('.torrent')) {
@@ -65,7 +57,6 @@ app.get('/test', (req, res) => {
   res.send('OK');
 });
 
-// Serve HTTPS
-https.createServer(credentials, app).listen(3001, () => {
-     console.log('✅ API dispo sur https://0.0.0.0:3001');
-});
+app.listen(3001, '0.0.0.0', () => {
+     console.log('✅ API dispo sur http://0.0.0.0:3001');
+ });
