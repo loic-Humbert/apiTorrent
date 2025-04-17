@@ -7,6 +7,7 @@ import path from 'path';
 import https from 'https';
 import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
+import cors from 'cors'; // Import de cors
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,7 +19,8 @@ const client = new WebTorrent();
 const DOWNLOAD_DIR = path.join(__dirname, 'downloads');
 if (!fs.existsSync(DOWNLOAD_DIR)) fs.mkdirSync(DOWNLOAD_DIR);
 
-
+// Utilisation du middleware CORS pour autoriser toutes les origines
+app.use(cors()); // Autorise toutes les origines
 
 app.post('/upload', upload.single('file'), (req, res) => {
     if (!req.file || !req.file.originalname.endsWith('.torrent')) {
@@ -58,5 +60,5 @@ app.get('/test', (req, res) => {
 });
 
 app.listen(3001, '0.0.0.0', () => {
-     console.log('✅ API dispo sur http://0.0.0.0:3001');
- });
+    console.log('✅ API dispo sur http://0.0.0.0:3001');
+});
